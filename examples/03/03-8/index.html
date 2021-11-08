@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue Props Sample</title>
+  </head>
+  <body>
+    <div id="app">
+      <h1>상위에서 하위 컴포넌트로 데이터 전달하기 : props</h1>
+      <!-- 팁 : 오른쪽에서 왼쪽으로 속성을 읽으면 더 수월합니다. -->
+      <!-- propsdata: props 속성 이름 / "message": 상위 컴포넌트의 데이터 속성 -->
+      <!-- 4. 컴포넌트 태그 추가 _ 상위 컴포넌트의 message 속성 값을 하위 컴포넌트의 propsdata로 전달 -->
+      <child-component v-bind:propsdata="message"></child-component>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.2/dist/vue.js"></script>
+    <script>
+      // 전역 컴포넌트 -> 컴포넌트를 등록함과 동시에 Vue Instance는 상위 컴포넌트가 된다.
+      Vue.component('child-component', {  // 2. 하위 컴포넌트의 이름을 'child-component'로 등록
+        props: ['propsdata'],  // 3. 하위 컴포넌트의 내용에 props 속성으로 propsdata 정의
+        template: '<p>{{ propsdata }}</p>',  // 5. 하위 컴포넌트의 template속성에 의해 정의된 <p>{{ propsdata }}</p> === 'Hello Vue! passed from Parent Component'
+      });
+
+      new Vue({  // 1. Instance 생성 _ 2번에 의해 자연스럽게 상위 컴포넌트가 됨
+        el: '#app',
+        data: {
+          message: 'Hello Vue! passed from Parent Component'  // 상위 컴포넌트의 message 속성
+        }
+      });
+    </script>
+  </body>
+</html>
+
+<!-- Vue Instance의 data속성에 의해 정의된 message 속성을 하위 컴포넌트에 props로 전달하여 화면에 나타낸다. -->

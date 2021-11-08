@@ -1,0 +1,26 @@
+<html>
+  <head>
+    <title>Vue Component Registration</title>
+  </head>
+  <body>
+    <!-- 특정 화면 요소에 인스턴스 부착 -->
+    <div id="app">
+      <button>컴포넌트 등록</button>
+      <!-- 전역 컴포넌트 표시 -->
+      <!-- 인스턴스 내용 변환 : <my-component>가 <div>로 변환 -->
+			<my-component></my-component>  
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.2/dist/vue.js"></script>
+    <script>
+      // 전역 컴포넌트 등록 _ HTML에서 사용할 태그 이름을 컴포넌트 이름으로 작성(my-component), {} 안에는 HTML태그가 실제 홤녀에서 그려질 때 표시될 내용 작성
+      Vue.component('my-component', {  // Vue 생성자로 컴포넌트 등록
+        template: '<div>전역 컴포넌트가 등록되었습니다!</div>'  
+      });
+
+      new Vue({  // 인스턴스 객체 생성
+        el: '#app'
+      });
+    </script>
+  </body>
+</html>
