@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue Nested Router</title>
+  </head>
+  <body>
+    <div id="app">
+      <h1>네스티드 라우터</h1>
+      <!-- 1. <router-view> : User 컴포넌트가 뿌려질 영역 (화면을 보여주는 영역)-->
+      <!-- 최상위 컴포넌트의 <router-view> -->
+      <router-view></router-view>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.2/dist/vue.js"></script>
+    <script src="https://unpkg.com/vue-router@3.0.1/dist/vue-router.js"></script>
+    <script>
+      // 2. User 컴포넌트 내용 정의 (상위 컴포넌트) _ 컴포넌트가 전환된 것을 확인하기 위해 template 속성을 내용에 추가
+      // 상위 컴포넌트의 <router-view>
+      const User = {
+        template: `
+          <div>
+            User Component
+            <router-view></router-view>
+          </div>
+        `
+      };
+      // 하위 컴포넌트
+      const UserProfile = { template: '<p>User Profile Component</p>' };
+      const UserPost = { template: '<p>User Post Component</p>' };
+
+      // 3. 네스티드 라우팅 정의 _ 라우터 정보 정의
+      const routes = [
+        {
+          path: '/user',  // 네스티드 라우터를 실행하는 기본 URL을 /user로 설정
+          component: User,  // 상위 컴포넌트는 User 컴포넌트로 지정
+          children: [  // URL값 /user 다음에 올 URL에 따라 표시될 하위 컴포넌트 정의
+            {
+              path: 'posts',  
+              component: UserPost
+            },
+            {
+              path: 'profile',
+              component: UserProfile
+            },
+          ]
+        }
+      ];
+
+      // 4. 뷰 라우팅 정의
+      const router = new VueRouter({
+        routes  // 앞에서 정의한 라우터 정보를 담은 객체 routes 정의
+      });
+
+      // 5. 뷰 인스턴스에 라우터 추가
+      const app = new Vue({
+        router  //라우터 정보 router를 포함하는 Instance 생성 
+      }).$mount('#app');  // app이라는 id를 가진 요소에 인스턴스를 붙여 화면에 나타냄
+    </script>
+  </body>
+</html>
+
+<!-- 
+  최상위 컴포넌트에도 <routwr-view>가 있고, 최상위 컴포넌트의 하위 컴포넌트(User)에도 <router-view>가 있다. 
+  때문에 URL에 따라 하위 컴포넌트의 내용이 바뀐다.
+-->

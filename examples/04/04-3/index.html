@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue Named View Sample</title>
+  </head>
+  <body>
+    <!-- 1. 라우팅 영역 정의 -->
+    <div id="app">
+      <h1>네임드 뷰</h1>
+      <h3>특정 페이지로 이동했을 때 여러 개의 컴포넌트를 동시에 표시하는 라우팅 방식</h3>
+      <!-- name속성 : 아래 components 속성에 정의하는 컴포넌트와 매칭하기 위한 속성  -->
+      <router-view name="header"></router-view>
+      <!-- name이 없는 경우 default -->
+      <router-view></router-view>
+      <router-view name="footer"></router-view>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.2/dist/vue.js"></script>
+    <script src="https://unpkg.com/vue-router@3.0.1/dist/vue-router.js"></script>
+    
+    <script>
+      // 2. 컴포넌트 내용 정의 _ Header, Body, Footer 컴포넌트 내용이 담길 객체 선언
+      const Body = { template: '<div>This is Body</div>' };
+      const Header = { template: '<div>This is Header</div>' };
+      const Footer = { template: '<div>This is Footer</div>' };
+
+      const router = new VueRouter({  // 3. 라우터 생성
+        routes: [
+          {
+            path: '/',  // 4. path: 네임드 뷰가 실행될 URL을 정의하는 속성 _ 파일을 실행하면 URL값 '/'에 의해 네임드 뷰가 바로 실행
+            // 5. <router-view>의 name 속성과 컴포넌트를 연결
+            components: {
+              default: Body,
+              header: Header,
+              footer: Footer
+            }
+          }
+        ]
+      })
+      
+      // 6. 네임드 뷰 정보를 가지고있는 router를 포함하는 인스턴스 생성
+      const app = new Vue({  
+        router
+      }).$mount('#app');
+    </script>
+  </body>
+</html>
